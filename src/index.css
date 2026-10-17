@@ -54,10 +54,23 @@
   user-select: none;
   -webkit-user-drag: none;
 }
-.barber-figure .stroke,
 .barber-figure .ghost { filter: url(#barberStroke); }
 .barber-figure .photo  { z-index: 3; }
-.barber-figure .stroke { z-index: 1; }
+.barber-figure .stroke-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: #AA2C0D;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: bottom center;
+  mask-position: bottom center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transform: scale(1.025);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
 .barber-figure .ghost  { z-index: 2; opacity: 0; will-change: transform, clip-path; animation-play-state: paused; }
 
 .barber-card { --amp: 16; }
@@ -66,9 +79,8 @@
 .barber-card .g3 { animation: barberBurstC 3.4s steps(1, end) infinite; }
 .barber-card:hover .ghost { animation-play-state: running; }
 
-/* Mobile: skip the SVG-filter glitch entirely — too heavy on phone GPUs. */
+/* Mobile: keep the static stroke, drop the animated ghost layers — too heavy on phone GPUs. */
 @media (max-width: 767px), (hover: none) {
-  .barber-figure .stroke,
   .barber-figure .ghost { display: none; }
 }
 

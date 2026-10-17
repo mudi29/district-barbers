@@ -40,8 +40,8 @@ const barbers: Barber[] = [
 // One SVG filter reused by every card's stroke + ghost layers.
 const BarberStrokeFilter = () => (
   <svg width="0" height="0" aria-hidden focusable="false" className="absolute">
-    <filter id="barberStroke" colorInterpolationFilters="sRGB">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="9" result="fat" />
+    <filter id="barberStroke" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="12" result="fat" />
       <feFlood floodColor="#AA2C0D" result="col" />
       <feComposite in="col" in2="fat" operator="in" />
     </filter>
@@ -51,7 +51,13 @@ const BarberStrokeFilter = () => (
 const BarberPortrait = ({ src, alt }: { src: string; alt: string }) => (
   <div className="relative -mx-6 -mt-6 aspect-[4/5] w-auto">
     <div className="barber-figure">
-      <img className="stroke" src={src} alt="" />
+      <div
+        className="stroke-mask"
+        style={{
+          WebkitMaskImage: `url(${src})`,
+          maskImage: `url(${src})`,
+        }}
+      />
       <img className="ghost g1" src={src} alt="" />
       <img className="ghost g2" src={src} alt="" />
       <img className="ghost g3" src={src} alt="" />
