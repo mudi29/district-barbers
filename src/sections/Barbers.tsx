@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
+  type CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -69,6 +70,12 @@ const BarberPortrait = ({ src, alt }: { src: string; alt: string }) => (
 // Based on Relume Team 9: header, card slider with controls, and a closing call to action.
 export const Barbers = () => {
   const [selected, setSelected] = useState<string>(barbers[0].name);
+  const [api, setApi] = useState<CarouselApi>();
+
+  const selectBarber = (name: string, index: number) => {
+    setSelected(name);
+    api?.scrollTo(index);
+  };
 
   return (
     <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] py-16 md:py-24 lg:py-28">
@@ -78,15 +85,15 @@ export const Barbers = () => {
           heading="Choose your barber"
           description="two barbers, two specialities. every cut starts with a consultation, so you and your barber agree on the shape before anything gets cut."
         />
-        <Carousel opts={{ align: "start" }}>
+        <Carousel opts={{ align: "start" }} setApi={setApi}>
           <CarouselContent className="ml-0">
-            {barbers.map((barber) => {
+            {barbers.map((barber, index) => {
               const isSelected = barber.name === selected;
               return (
                 <CarouselItem key={barber.name} className="basis-4/5 pl-0 pr-6 md:pr-8">
                   <button
                     type="button"
-                    onClick={() => setSelected(barber.name)}
+                    onClick={() => selectBarber(barber.name, index)}
                     className={cn(
                       "barber-card flex h-full w-full flex-col gap-6 border bg-brand-paper p-6 text-left transition-colors",
                       isSelected
