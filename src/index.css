@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Colour schemes from the Relume style guide (RGB channels so Tailwind opacity works). */
+  :root,
+  .scheme-1 {
+    --scheme-background: 245 245 245; /* #F5F5F5 */
+    --scheme-background-secondary: 232 232 232; /* #E8E8E8 */
+    --scheme-text: 7 7 7; /* #070707 */
+    --scheme-accent: 170 44 13; /* #AA2C0D */
+  }
+  .scheme-2 {
+    --scheme-background: 188 189 200; /* #BCBDC8 */
+    --scheme-background-secondary: 156 157 166; /* #9C9DA6 */
+    --scheme-text: 7 7 7;
+    --scheme-accent: 7 7 7;
+  }
+  .scheme-1,
+  .scheme-2 {
+    @apply bg-scheme-background text-scheme-text;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-brand-paper font-body text-regular text-brand-ink;
+  }
+  h1, h2, h3, h4, h5, h6, .heading {
+    @apply font-heading font-semibold uppercase;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Relume's smaller mobile type ramp. */
+  .text-h1 { font-size: 2.75rem; }
+  .text-h2 { font-size: 2.25rem; }
+  .text-h3 { font-size: 2rem; }
+  .text-h4 { font-size: 1.5rem; }
+}
+
+/* ---------- barber card glitch stroke ---------- */
+.barber-figure { position: absolute; inset: 0; }
+.barber-figure img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.barber-figure .stroke,
+.barber-figure .ghost { filter: url(#barberStroke); }
+.barber-figure .photo  { z-index: 3; }
+.barber-figure .stroke { z-index: 1; }
+.barber-figure .ghost  { z-index: 2; opacity: 0; will-change: transform, clip-path; animation-play-state: paused; }
+
+.barber-card { --amp: 16; }
+.barber-card .g1 { animation: barberBurstA 3.4s steps(1, end) infinite; }
+.barber-card .g2 { animation: barberBurstB 3.4s steps(1, end) infinite; }
+.barber-card .g3 { animation: barberBurstC 3.4s steps(1, end) infinite; }
+.barber-card:hover .ghost,
+.barber-card.is-selected .ghost { animation-play-state: running; }
+
+@keyframes barberBurstA {
+  0%, 100% { opacity: 0; clip-path: inset(14% 0 68% 0); transform: translate3d(0,0,0); }
+  5%  { opacity: 1; clip-path: inset(14% 0 68% 0); transform: translate3d(calc(var(--amp) * 1px), 0, 0); }
+  7%  { opacity: 1; clip-path: inset(26% 0 58% 0); transform: translate3d(calc(var(--amp) * -0.65px), 0, 0); }
+  9%  { opacity: 1; clip-path: inset(14% 0 68% 0); transform: translate3d(calc(var(--amp) * 0.3px), 0, 0); }
+  11% { opacity: 0; }
+  46% { opacity: 1; clip-path: inset(20% 0 64% 0); transform: translate3d(calc(var(--amp) * -1px), 0, 0); }
+  49% { opacity: 1; clip-path: inset(8% 0 76% 0); transform: translate3d(calc(var(--amp) * 0.5px), 0, 0); }
+  52% { opacity: 0; }
+}
+@keyframes barberBurstB {
+  0%, 100% { opacity: 0; clip-path: inset(48% 0 34% 0); transform: translate3d(0,0,0); }
+  6%  { opacity: 1; clip-path: inset(48% 0 34% 0); transform: translate3d(calc(var(--amp) * -0.85px), 0, 0); }
+  8%  { opacity: 1; clip-path: inset(56% 0 26% 0); transform: translate3d(calc(var(--amp) * 0.45px), 0, 0); }
+  10% { opacity: 0; }
+  47% { opacity: 1; clip-path: inset(52% 0 30% 0); transform: translate3d(calc(var(--amp) * 0.9px), 0, 0); }
+  50% { opacity: 1; clip-path: inset(40% 0 44% 0); transform: translate3d(calc(var(--amp) * -0.4px), 0, 0); }
+  53% { opacity: 0; }
+  74% { opacity: 1; clip-path: inset(60% 0 22% 0); transform: translate3d(calc(var(--amp) * 0.7px), 0, 0); }
+  76% { opacity: 0; }
+}
+@keyframes barberBurstC {
+  0%, 100% { opacity: 0; clip-path: inset(72% 0 10% 0); transform: translate3d(0,0,0); }
+  7%  { opacity: 1; clip-path: inset(72% 0 10% 0); transform: translate3d(calc(var(--amp) * 0.6px), 0, 0); }
+  9%  { opacity: 0; }
+  48% { opacity: 1; clip-path: inset(78% 0 4% 0); transform: translate3d(calc(var(--amp) * -1.1px), 0, 0); }
+  51% { opacity: 1; clip-path: inset(66% 0 16% 0); transform: translate3d(calc(var(--amp) * 0.35px), 0, 0); }
+  54% { opacity: 0; }
+  75% { opacity: 1; clip-path: inset(70% 0 12% 0); transform: translate3d(calc(var(--amp) * -0.55px), 0, 0); }
+  77% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barber-card .ghost { animation: none !important; opacity: 0 !important; }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "vscode-edge-devtools.debug",
+      "request": "launch",
+      "name": "Mobile preview (Edge Tools)",
+      "url": "http://localhost:5173",
+      "presentation": { "hidden": false, "group": "", "order": 1 }
+    }
+  ]
+}
