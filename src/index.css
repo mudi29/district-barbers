@@ -67,7 +67,7 @@
   mask-position: bottom center;
   -webkit-mask-size: contain;
   mask-size: contain;
-  transform: scale(1.025);
+  transform: scale(1.06);
   transform-origin: bottom center;
   pointer-events: none;
 }
