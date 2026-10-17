@@ -17,7 +17,7 @@ export const About = () => (
 
       <div className="mx-auto flex w-full max-w-[360px] flex-col gap-4">
         <video
-          src="/Storm.MP4"
+          src="/storm.mp4"
           autoPlay
           muted
           loop

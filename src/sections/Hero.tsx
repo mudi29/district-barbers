@@ -11,7 +11,7 @@ export const Hero = () => (
     </div>
     <div className="absolute inset-0 z-0">
       <video
-        src="/heroVideo.MP4"
+        src="/hero.mp4"
         autoPlay
         muted
         loop
