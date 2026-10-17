@@ -64,8 +64,13 @@
 .barber-card .g1 { animation: barberBurstA 3.4s steps(1, end) infinite; }
 .barber-card .g2 { animation: barberBurstB 3.4s steps(1, end) infinite; }
 .barber-card .g3 { animation: barberBurstC 3.4s steps(1, end) infinite; }
-.barber-card:hover .ghost,
-.barber-card.is-selected .ghost { animation-play-state: running; }
+.barber-card:hover .ghost { animation-play-state: running; }
+
+/* Mobile: skip the SVG-filter glitch entirely — too heavy on phone GPUs. */
+@media (max-width: 767px), (hover: none) {
+  .barber-figure .stroke,
+  .barber-figure .ghost { display: none; }
+}
 
 @keyframes barberBurstA {
   0%, 100% { opacity: 0; clip-path: inset(14% 0 68% 0); transform: translate3d(0,0,0); }
