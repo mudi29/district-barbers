@@ -77,6 +77,7 @@ export const Barbers = () => {
     api?.scrollTo(index);
   };
 
+
   return (
     <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] py-16 md:py-24 lg:py-28">
       <BarberStrokeFilter />
