@@ -4,28 +4,28 @@ import { SectionHeader } from "./SectionHeader";
 
 const faqs = [
   {
-    q: "Do you take walk-ins?",
-    a: "yes, when a chair is free. booking holds a specific time, and you'll get an sms to confirm it.",
+    q: "Tager I walk-ins?",
+    a: "ja, når en stol er fri. en booking holder en bestemt tid, og du får en sms som bekræftelse.",
   },
   {
-    q: "Do I need to pay a deposit?",
-    a: "booking takes a 50% deposit to hold the time. the rest is paid at the shop.",
+    q: "Skal jeg betale depositum?",
+    a: "booking kræver 50% depositum for at holde tiden. resten betales i butikken.",
   },
   {
-    q: "What's your cancellation policy?",
-    a: "cancel up to an hour before your appointment and the deposit is refunded in full.",
+    q: "Hvad er jeres afbudsregler?",
+    a: "afbud op til en time før din tid, så får du dit depositum fuldt refunderet.",
   },
   {
-    q: "Do you speak English?",
-    a: "yes. danish and english, both barbers.",
+    q: "Taler I engelsk?",
+    a: "ja. dansk og engelsk, begge barberer.",
   },
   {
-    q: "How long does a cut take?",
-    a: "a haircut is around 30 minutes. cut and beard together is around 45. the first time usually takes a bit longer because of the consultation.",
+    q: "Hvor lang tid tager en klipning?",
+    a: "en klipning tager omkring 30 minutter. klip og skæg sammen er omkring 45. første gang tager typisk lidt længere på grund af konsultationen.",
   },
   {
-    q: "Can I bring a reference photo?",
-    a: "please do. a picture is faster than describing it, and your barber will tell you honestly whether it'll work on your hair.",
+    q: "Kan jeg tage et referencebillede med?",
+    a: "ja tak. et billede er hurtigere end at beskrive det, og din barber siger ærligt hvorvidt det passer til dit hår.",
   },
 ];
 
@@ -35,7 +35,7 @@ export const Faq = () => {
   return (
     <section id="faq" className="scheme-1 px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container max-w-3xl">
-        <SectionHeader heading="FAQ" description="the questions we get most often, answered." />
+        <SectionHeader heading="FAQ" description="de spørgsmål vi får oftest, besvaret." />
         <div className="flex flex-col">
           {faqs.map((item, i) => {
             const isOpen = open === i;

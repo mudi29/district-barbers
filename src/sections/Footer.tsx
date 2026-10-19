@@ -19,22 +19,22 @@ export const Footer = () => (
           </ul>
         </div>
         <div>
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider">Address</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider">Adresse</p>
           <p className="text-sm">{ADDRESS}</p>
         </div>
         <div>
-          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider">Hours</p>
+          <p className="mb-2 font-heading text-sm font-semibold uppercase tracking-wider">Åbningstider</p>
           <p className="text-sm">{HOURS_SHORT}</p>
         </div>
         <div>
-          <p className="mb-4 font-heading text-sm font-semibold uppercase tracking-wider">Book a chair</p>
+          <p className="mb-4 font-heading text-sm font-semibold uppercase tracking-wider">Book en stol</p>
           <Button asChild variant="secondary-alt" size="sm" className="text-sm uppercase">
-            <a href={BOOKING_URL}>Book An Appointment</a>
+            <a href={BOOKING_URL}>Book en tid</a>
           </Button>
         </div>
       </div>
       <div className="flex flex-col-reverse gap-4 border-t border-white/20 pt-6 text-sm md:flex-row md:justify-between">
-        <p>district barbers, all rights reserved.</p>
+        <p>district barbers.</p>
         <div className="flex gap-6">
           <a href="/privatlivspolitik" className="hover:underline">privatlivspolitik</a>
           <a href="/cookiepolitik" className="hover:underline">cookiepolitik</a>

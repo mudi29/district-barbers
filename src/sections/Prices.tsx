@@ -3,9 +3,9 @@ import { BOOKING_URL } from "@/content";
 import { SectionHeader } from "./SectionHeader";
 
 const services = [
-  { name: "Haircut", description: "cut to your hair and your head, from clipper work up to scissor length.", price: 250 },
-  { name: "Beard", description: "shaped, lined and trimmed, with the neck and cheek lines cleaned up.", price: 150 },
-  { name: "Hair and beard", description: "both, in one appointment. the way most people book.", price: 350 },
+  { name: "Klip", description: "klippet til dit hår og dit hoved, fra clipper-arbejde op til sakselængde.", price: 250 },
+  { name: "Skæg", description: "formet, lined og trimmet, med hals og kinder renset op.", price: 150 },
+  { name: "Klip + skæg", description: "begge dele, samme tid. 45 minutter i samme stol.", price: 350 },
 ];
 
 // Based on Relume Pricing 40: three plan cards, followed by a CTA banner.
@@ -13,8 +13,8 @@ export const Prices = () => (
   <section id="prices" className="scheme-1 bg-[#E8E8E8] px-[5%] py-16 md:py-24 lg:py-28">
     <div className="container">
       <SectionHeader
-        heading="Prices"
-        description="the consultation is part of every appointment, not an add-on. booking takes a 50% deposit to hold the time."
+        heading="Priser"
+        description="konsultationen er del af hver tid, ikke et tillæg. booking kræver 50% depositum for at holde tiden."
       />
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {services.map((s) => (
@@ -30,11 +30,11 @@ export const Prices = () => (
       </div>
       <div className="mt-12 flex flex-col items-start justify-between gap-6 bg-scheme-background-secondary p-8 md:mt-20 md:flex-row md:items-center md:p-12">
         <div>
-          <h3 className="text-h4">Ready when you are.</h3>
-          <p className="mt-3 text-medium">pick a barber above, or take the next available chair.</p>
+          <h3 className="text-h4">Når du er klar.</h3>
+          <p className="mt-3 text-medium">vælg en barber ovenfor, eller tag næste ledige stol.</p>
         </div>
         <Button asChild>
-          <a href={BOOKING_URL}>Book An Appointment</a>
+          <a href={BOOKING_URL}>Book en tid</a>
         </Button>
       </div>
     </div>

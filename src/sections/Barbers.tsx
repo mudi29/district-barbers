@@ -5,8 +5,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { ProgressBar } from "@/components/ui/progress-bar";
@@ -18,23 +16,23 @@ type Barber = {
   specialties: string;
   description: string;
   photo: string;
-  skills: { fade: number; beard: number; goodVibes: number };
+  bars: string[];
 };
 
 const barbers: Barber[] = [
   {
     name: "Mahdi",
-    specialties: "fades · beards · afros",
-    description: "fades that hold their shape, and beards cut for the face they're on.",
+    specialties: "fades · skæg · afros",
+    description: "specialist i fades og skæg. jeg bruger tiden det tager.",
     photo: "/mahdi.png",
-    skills: { fade: 100, beard: 100, goodVibes: 100 },
+    bars: ["Fade", "Skæg", "Good vibes"],
   },
   {
     name: "Storm",
-    specialties: "straight hair · styling · danish hair types",
-    description: "straight hair worked with properly: length, weight, and how it falls as it grows out.",
+    specialties: "lige hår · styling · dansk hårtype",
+    description: "specialist i taper, blondt og dansk hår.",
     photo: "/mahdi.png",
-    skills: { fade: 100, beard: 100, goodVibes: 100 },
+    bars: ["Hårklip", "Taper", "Energy LVL"],
   },
 ];
 
@@ -83,15 +81,15 @@ export const Barbers = () => {
       <BarberStrokeFilter />
       <div className="container">
         <SectionHeader
-          heading="Choose your barber"
-          description="two barbers, two specialities. every cut starts with a consultation, so you and your barber agree on the shape before anything gets cut."
+          heading="Vælg din barber"
+          description="to barberer, to specialer. hver klipning handler 100% om dig. vi lytter, klipper, og retter indtil det sidder som det skal."
         />
         <Carousel opts={{ align: "start" }} setApi={setApi}>
           <CarouselContent className="ml-0">
             {barbers.map((barber, index) => {
               const isSelected = barber.name === selected;
               return (
-                <CarouselItem key={barber.name} className="basis-4/5 pl-0 pr-6 md:pr-8">
+                <CarouselItem key={barber.name} className="basis-[90%] pl-0 pr-6 md:pr-8">
                   <button
                     type="button"
                     onClick={() => selectBarber(barber.name, index)}
@@ -107,29 +105,25 @@ export const Barbers = () => {
                     <h3 className="text-h5">{barber.name}</h3>
                     <p className="flex-1">{barber.description}</p>
                     <div className="flex flex-col gap-3">
-                      <ProgressBar label="Fade" value={100} />
-                      <ProgressBar label="Beard" value={100} />
-                      <ProgressBar label="Good vibes" value={100} />
+                      {barber.bars.map((label) => (
+                        <ProgressBar key={label} label={label} value={100} />
+                      ))}
                     </div>
                     <Button asChild className="w-full uppercase">
-                      <a href={BOOKING_URL}>Vælg {barber.name}</a>
+                      <a href={BOOKING_URL}>Book {barber.name}</a>
                     </Button>
                   </button>
                 </CarouselItem>
               );
             })}
           </CarouselContent>
-          <div className="mt-10 flex justify-end gap-2 md:hidden">
-            <CarouselPrevious className="static translate-y-0" />
-            <CarouselNext className="static translate-y-0" />
-          </div>
         </Carousel>
         <div className="mt-14 border border-brand-rust/30 bg-brand-paper p-8 md:mt-20 md:p-12">
-          <h3 className="mb-3 text-h4 md:mb-4">No preference?</h3>
-          <p className="text-medium">take the next available time and we'll put you with whoever is free.</p>
+          <h3 className="mb-3 text-h4 md:mb-4">Kan du ikke vælge?</h3>
+          <p className="text-medium">tag næste ledige tid, så sætter vi dig på den stol der er fri.</p>
           <div className="mt-6 md:mt-8">
             <Button asChild>
-              <a href={BOOKING_URL}>Book Next Available</a>
+              <a href={BOOKING_URL}>Book nu</a>
             </Button>
           </div>
         </div>

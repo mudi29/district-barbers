@@ -9,9 +9,9 @@ export const ADDRESS = "frederikssundsvej 40, 2400 københavn nv";
 export const HOURS_SHORT = "tuesday to sunday, 10-18";
 
 export const NAV_LINKS = [
-  { title: "barbers", href: "#barbers" },
-  { title: "prices", href: "#prices" },
-  { title: "about", href: "#about" },
+  { title: "barbere", href: "#barbers" },
+  { title: "priser", href: "#prices" },
+  { title: "om", href: "#about" },
   { title: "faq", href: "#faq" },
-  { title: "contact", href: "#contact" },
+  { title: "kontakt", href: "#contact" },
 ];

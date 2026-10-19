@@ -8,21 +8,33 @@ import { BOOKING_URL, NAV_LINKS } from "@/content";
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      // Hide when scrolling down past 100px, show when scrolling up.
+      // Always show when menu is open or near the top.
+      if (open || y < 100) setHidden(false);
+      else if (y > lastY + 4) setHidden(true);
+      else if (y < lastY - 4) setHidden(false);
+      lastY = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [open]);
 
   const solid = scrolled || open;
 
   return (
     <nav
       className={cn(
-        "absolute inset-x-0 top-0 z-50 border-b border-white/20 transition-colors duration-300",
+        "fixed inset-x-0 top-0 z-50 border-b border-white/20 transition-[transform,background-color,color] duration-[400ms] ease-out",
         solid ? "bg-black/50 text-white backdrop-blur" : "bg-transparent text-white",
+        hidden && "-translate-y-full",
       )}
     >
       <div className="flex min-h-16 items-center justify-between px-[5%] md:min-h-18">
@@ -70,7 +82,7 @@ export const Navbar = () => {
           ))}
           <Button asChild variant="secondary-alt" size="sm" className="mt-4 w-full text-sm uppercase">
             <a href={BOOKING_URL} onClick={() => setOpen(false)}>
-              Book Your Session
+              Book en tid
             </a>
           </Button>
         </div>

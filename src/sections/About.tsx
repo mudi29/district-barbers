@@ -5,13 +5,13 @@ export const About = () => (
   <section id="about" className="scheme-2 bg-[#9C9DA6] px-[5%] py-16 md:py-24 lg:py-28">
     <div className="container grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
       <div>
-        <h2 className="mb-5 text-h2 md:mb-6">Where style becomes identity</h2>
+        <h2 className="mb-5 text-h2 md:mb-6">Vi lærer dit hoved at kende.</h2>
         <p className="mb-4 text-medium">
-          district barbers is two barbers in nordvest. the same barber cuts you each time, so he learns your head
-          instead of asking what you had last time.
+          district barbers er to barberer i nordvest. den samme barber klipper dig hver gang, så han kender dit
+          hoved i stedet for at spørge hvad du havde sidst.
         </p>
         <p className="mb-6 text-medium">
-          every cut starts with a consultation, so the shape gets decided before anything is cut.
+          hver klipning starter med en konsultation. formen bliver besluttet før der klippes.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export const About = () => (
           rel="noreferrer"
           className="font-heading text-small font-semibold uppercase tracking-wider hover:underline hover:underline-offset-4"
         >
-          Follow {INSTAGRAM_HANDLE} ↗
+          Følg {INSTAGRAM_HANDLE} ↗
         </a>
       </div>
     </div>
