@@ -7,7 +7,6 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import { ProgressBar } from "@/components/ui/progress-bar";
 import { BOOKING_URL } from "@/content";
 import { t } from "@/i18n";
 import { SectionHeader } from "./SectionHeader";
@@ -30,6 +29,19 @@ const barbers: Barber[] = [
     outline: "/barber-storm-outline.webp",
   },
 ];
+
+// A full bar, drawn with plain elements so a phone has nothing to animate or track.
+const StatBar = ({ label }: { label: string }) => (
+  <div role="meter" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={100}>
+    <div className="flex items-baseline justify-between gap-3 text-tiny font-medium uppercase text-scheme-text lg:text-regular">
+      <span className="truncate">{label}</span>
+      <span aria-hidden className="shrink-0 text-scheme-text/60">100%</span>
+    </div>
+    <div className="mt-2 h-3 w-full border border-scheme-text/20">
+      <div className="h-full w-full bg-black/50" />
+    </div>
+  </div>
+);
 
 // The selected card shows a copy of the photo with the ink outline already drawn into it. Fading between
 // the two is cheap, where a live drop-shadow filter made phones in Low Power Mode stutter.
@@ -90,23 +102,25 @@ export const Barbers = () => {
               const isSelected = barber.name === selected;
               return (
                 <CarouselItem key={barber.name} className="basis-[90%] pl-0 pr-6 sm:basis-[60%] lg:basis-[392px] lg:px-4">
-                  <button
-                    type="button"
+                  <div
                     onClick={() => selectBarber(barber.name, index)}
                     className={cn(
-                      "barber-card flex h-full w-full flex-col overflow-hidden border-2 bg-brand-paper p-6 text-left transition-colors",
+                      "barber-card flex h-full w-full flex-col overflow-hidden border-2 bg-brand-paper p-6 text-left",
                       isSelected
                         ? "is-selected border-brand-ink"
                         : "border-brand-ink/30 hover:border-brand-ink/60",
                     )}
-                    aria-pressed={isSelected}
                   >
                     <BarberPortrait src={barber.photo} outline={barber.outline} alt={t.barbers.alt(barber.name)} />
-                    <h3 className="mt-8 text-h5">{barber.name}</h3>
+                    <h3 className="mt-8 text-h5">
+                      <button type="button" aria-pressed={isSelected} className="text-left uppercase">
+                        {barber.name}
+                      </button>
+                    </h3>
                     <p className="mt-2 flex-1">{t.barbers.list[index].description}</p>
                     <div className="mt-8 flex flex-col gap-2">
                       {t.barbers.list[index].bars.map((label) => (
-                        <ProgressBar key={label} label={label} value={100} />
+                        <StatBar key={label} label={label} />
                       ))}
                     </div>
                     <Button asChild className="mt-8 w-full uppercase">
@@ -118,7 +132,7 @@ export const Barbers = () => {
                         {t.barbers.choose(barber.name)}
                       </a>
                     </Button>
-                  </button>
+                  </div>
                 </CarouselItem>
               );
             })}
