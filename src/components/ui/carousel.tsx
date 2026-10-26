@@ -133,7 +133,13 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div ref={carouselRef} className="overflow-hidden" data-slot="carousel-content">
       <div
-        className={cn("flex", orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col", className)}
+        className={cn(
+          "flex will-change-transform",
+          // Embla needs this so the phone knows up and down is for the page and sideways is for the carousel.
+          // Without it the browser holds back every touch until it has guessed the direction, which feels laggy.
+          orientation === "horizontal" ? "-ml-4 touch-pan-y touch-pinch-zoom" : "-mt-4 flex-col touch-pan-x touch-pinch-zoom",
+          className,
+        )}
         {...props}
       />
     </div>
