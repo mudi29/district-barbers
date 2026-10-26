@@ -14,7 +14,7 @@ export const Hero = () => (
     </div>
     <div className="absolute inset-0 z-0 bg-brand-ink lg:flex lg:justify-center">
       <LazyVideo
-        src="/laminEdit.mp4"
+        src="/hero.mp4"
         poster="/hero-poster.webp"
         autoPlay
         preload="auto"
