@@ -5,16 +5,18 @@ import { Barbers } from "./sections/Barbers";
 import { Reviews } from "./sections/Reviews";
 import { Prices } from "./sections/Prices";
 import { About } from "./sections/About";
-import { Info } from "./sections/Info";
 import { Faq } from "./sections/Faq";
 import { Footer } from "./sections/Footer";
 import { StyleGuide } from "./sections/StyleGuide";
+import { CookiePolicy } from "./sections/CookiePolicy";
+import { PrivacyPolicy } from "./sections/PrivacyPolicy";
 
 export default function App() {
-  // Tiny path-based router: /styleguide shows the design reference, everything else the site.
-  if (window.location.pathname.replace(/\/$/, "") === "/styleguide") {
-    return <StyleGuide />;
-  }
+  // Tiny path-based router: /styleguide and /cookiepolitik get their own pages, everything else the site.
+  const path = window.location.pathname.replace(/\/$/, "");
+  if (path === "/styleguide") return <StyleGuide />;
+  if (path === "/cookiepolitik") return <CookiePolicy />;
+  if (path === "/privatlivspolitik") return <PrivacyPolicy />;
 
   return (
     <>
@@ -27,7 +29,6 @@ export default function App() {
         <Prices />
         <About />
         <Faq />
-        <Info />
       </main>
       <Footer />
     </>

@@ -34,22 +34,22 @@ export function ProgressBar({
   const measured: AriaAttributes = indeterminate
     ? {}
     : {
-        "aria-valuenow": Math.round(fraction * max * 100) / 100,
-        "aria-valuetext": `${percent}%`,
-      };
+      "aria-valuenow": Math.round(fraction * max * 100) / 100,
+      "aria-valuetext": `${percent}%`,
+    };
 
   return (
     <div className={`w-full ${className}`}>
       <div className="flex items-baseline justify-between gap-3">
         <span
           id={labelId}
-          className="truncate font-heading text-tiny font-semibold uppercase tracking-wider text-scheme-text"
+          className="truncate font-body text-tiny lg:text-regular font-medium uppercase tracking-normal text-scheme-text"
         >
           {label}
         </span>
         <span aria-hidden className="grid shrink-0 justify-items-end text-scheme-text/60">
           <motion.span
-            className="col-start-1 row-start-1 whitespace-nowrap text-tiny leading-5"
+            className="col-start-1 row-start-1 whitespace-nowrap text-tiny lg:text-regular leading-5"
             initial={false}
             animate={{ opacity: indeterminate ? 1 : 0 }}
             transition={reduced ? INSTANT : CROSSFADE}
@@ -57,7 +57,7 @@ export function ProgressBar({
             {pendingLabel}
           </motion.span>
           <motion.span
-            className="col-start-1 row-start-1 whitespace-nowrap text-tiny leading-5 tabular-nums"
+            className="col-start-1 row-start-1 whitespace-nowrap text-tiny lg:text-regular leading-5 tabular-nums"
             initial={false}
             animate={{ opacity: indeterminate ? 0 : 1 }}
             transition={reduced ? INSTANT : CROSSFADE}
@@ -73,12 +73,12 @@ export function ProgressBar({
         aria-valuemin={0}
         aria-valuemax={max}
         {...measured}
-        className="mt-2 h-[12px] w-full border border-scheme-text/20 bg-transparent"
+        className="mt-2 h-3 w-full border border-scheme-text/20 bg-transparent"
       >
         <div className="relative h-full w-full overflow-hidden">
           <motion.span
             aria-hidden
-            className="absolute inset-0 block origin-left bg-brand-rust"
+            className="absolute inset-0 block origin-left bg-black/50"
             initial={false}
             animate={{ scaleX: indeterminate ? 0 : fraction }}
             transition={reduced ? INSTANT : FILL}
@@ -86,7 +86,7 @@ export function ProgressBar({
           {indeterminate && !reduced ? (
             <motion.span
               aria-hidden
-              className="absolute inset-y-0 left-0 block w-2/5 bg-brand-rust"
+              className="absolute inset-y-0 left-0 block w-2/5 bg-black/50"
               initial={{ x: "-100%", opacity: 0 }}
               animate={{ x: "250%", opacity: 1 }}
               exit={{ opacity: 0 }}

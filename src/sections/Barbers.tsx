@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   type CarouselApi,
@@ -9,58 +9,29 @@ import {
 import { cn } from "@/lib/utils";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { BOOKING_URL } from "@/content";
+import { t } from "@/i18n";
 import { SectionHeader } from "./SectionHeader";
 
 type Barber = {
   name: string;
-  specialties: string;
-  description: string;
   photo: string;
-  bars: string[];
 };
 
 const barbers: Barber[] = [
   {
     name: "Mahdi",
-    specialties: "fades · skæg · afros",
-    description: "specialist i fades og skæg. jeg bruger tiden det tager.",
-    photo: "/mahdi.png",
-    bars: ["Fade", "Skæg", "Good vibes"],
+    photo: "/MahdiClip.PNG",
   },
   {
     name: "Storm",
-    specialties: "lige hår · styling · dansk hårtype",
-    description: "specialist i taper, blondt og dansk hår.",
-    photo: "/mahdi.png",
-    bars: ["Hårklip", "Taper", "Energy LVL"],
+    photo: "/StormBillede.png",
   },
 ];
 
-// One SVG filter reused by every card's stroke + ghost layers.
-const BarberStrokeFilter = () => (
-  <svg width="0" height="0" aria-hidden focusable="false" className="absolute">
-    <filter id="barberStroke" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="12" result="fat" />
-      <feFlood floodColor="#AA2C0D" result="col" />
-      <feComposite in="col" in2="fat" operator="in" />
-    </filter>
-  </svg>
-);
-
 const BarberPortrait = ({ src, alt }: { src: string; alt: string }) => (
-  <div className="relative -mx-6 -mt-6 aspect-[4/5] w-auto">
+  <div className="relative -mx-6 -mt-6 aspect-[4/5] w-auto lg:aspect-[24/25]">
     <div className="barber-figure">
-      <div
-        className="stroke-mask"
-        style={{
-          WebkitMaskImage: `url(${src})`,
-          maskImage: `url(${src})`,
-        }}
-      />
-      <img className="ghost g1" src={src} alt="" />
-      <img className="ghost g2" src={src} alt="" />
-      <img className="ghost g3" src={src} alt="" />
-      <img className="photo" src={src} alt={alt} />
+      <img src={src} alt={alt} />
     </div>
   </div>
 );
@@ -72,45 +43,66 @@ export const Barbers = () => {
 
   const selectBarber = (name: string, index: number) => {
     setSelected(name);
-    api?.scrollTo(index);
+    if (window.matchMedia("(max-width: 1023px)").matches) api?.scrollTo(index);
   };
+
+  // Keep the "selected" (outlined) card in sync with whichever card the
+  // carousel is currently on — so a swipe outlines the new in-view card.
+  useEffect(() => {
+    if (!api) return;
+    const sync = () => {
+      const i = api.selectedScrollSnap();
+      const name = barbers[i]?.name;
+      if (name) setSelected(name);
+    };
+    api.on("select", sync);
+    sync();
+    return () => {
+      api.off("select", sync);
+    };
+  }, [api]);
 
 
   return (
-    <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] py-16 md:py-24 lg:py-28">
-      <BarberStrokeFilter />
-      <div className="container">
+    <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-20 lg:pb-[80px]">
+      <div className="container lg:mx-auto lg:max-w-[752px]">
         <SectionHeader
-          heading="Vælg din barber"
-          description="to barberer, to specialer. hver klipning handler 100% om dig. vi lytter, klipper, og retter indtil det sidder som det skal."
+          heading={t.barbers.heading}
+          description={t.barbers.description}
         />
-        <Carousel opts={{ align: "start" }} setApi={setApi}>
-          <CarouselContent className="ml-0">
+        <Carousel opts={{ align: "start", breakpoints: { "(min-width: 1024px)": { active: false } } }} setApi={setApi}>
+          <CarouselContent className="ml-0 lg:-ml-4">
             {barbers.map((barber, index) => {
               const isSelected = barber.name === selected;
               return (
-                <CarouselItem key={barber.name} className="basis-[90%] pl-0 pr-6 md:pr-8">
+                <CarouselItem key={barber.name} className="basis-[90%] pl-0 pr-6 sm:basis-[60%] lg:basis-[392px] lg:px-4">
                   <button
                     type="button"
                     onClick={() => selectBarber(barber.name, index)}
                     className={cn(
-                      "barber-card flex h-full w-full flex-col gap-6 border bg-brand-paper p-6 text-left transition-colors",
+                      "barber-card flex h-full w-full flex-col overflow-hidden border-2 bg-brand-paper p-6 text-left transition-colors",
                       isSelected
-                        ? "is-selected border-2 border-brand-rust"
-                        : "border-brand-rust/30 hover:border-brand-rust/60",
+                        ? "is-selected border-brand-ink"
+                        : "border-brand-ink/30 hover:border-brand-ink/60",
                     )}
                     aria-pressed={isSelected}
                   >
                     <BarberPortrait src={barber.photo} alt={barber.name} />
-                    <h3 className="text-h5">{barber.name}</h3>
-                    <p className="flex-1">{barber.description}</p>
-                    <div className="flex flex-col gap-3">
-                      {barber.bars.map((label) => (
+                    <h3 className="mt-8 text-h5">{barber.name}</h3>
+                    <p className="mt-2 flex-1">{t.barbers.list[index].description}</p>
+                    <div className="mt-8 flex flex-col gap-2">
+                      {t.barbers.list[index].bars.map((label) => (
                         <ProgressBar key={label} label={label} value={100} />
                       ))}
                     </div>
-                    <Button asChild className="w-full uppercase">
-                      <a href={BOOKING_URL}>Book {barber.name}</a>
+                    <Button asChild className="mt-8 w-full uppercase">
+                      <a
+                        href={BOOKING_URL}
+                        data-umami-event="book-click"
+                        data-umami-event-source={`barber-${barber.name}`}
+                      >
+                        {t.barbers.choose(barber.name)}
+                      </a>
                     </Button>
                   </button>
                 </CarouselItem>
@@ -118,12 +110,14 @@ export const Barbers = () => {
             })}
           </CarouselContent>
         </Carousel>
-        <div className="mt-14 border border-brand-rust/30 bg-brand-paper p-8 md:mt-20 md:p-12">
-          <h3 className="mb-3 text-h4 md:mb-4">Kan du ikke vælge?</h3>
-          <p className="text-medium">tag næste ledige tid, så sætter vi dig på den stol der er fri.</p>
-          <div className="mt-6 md:mt-8">
-            <Button asChild>
-              <a href={BOOKING_URL}>Book nu</a>
+        <div className="mt-16 border border-brand-ink/30 bg-brand-paper p-6 md:mt-14 lg:max-w-[360px]">
+          <h3 className="mb-2 text-h4">{t.barbers.undecidedHeading}</h3>
+          <p className="text-regular">{t.barbers.undecidedText}</p>
+          <div className="mt-8 md:mt-8">
+            <Button asChild variant="secondary" className="w-full border-brand-ink">
+              <a href={BOOKING_URL} data-umami-event="book-click" data-umami-event-source="no-preference">
+                {t.barbers.bookNow}
+              </a>
             </Button>
           </div>
         </div>

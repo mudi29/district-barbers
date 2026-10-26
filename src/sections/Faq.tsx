@@ -1,53 +1,42 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 import { SectionHeader } from "./SectionHeader";
 
-const faqs = [
-  {
-    q: "Tager I walk-ins?",
-    a: "ja, når en stol er fri. en booking holder en bestemt tid, og du får en sms som bekræftelse.",
-  },
-  {
-    q: "Skal jeg betale depositum?",
-    a: "booking kræver 50% depositum for at holde tiden. resten betales i butikken.",
-  },
-  {
-    q: "Hvad er jeres afbudsregler?",
-    a: "afbud op til en time før din tid, så får du dit depositum fuldt refunderet.",
-  },
-  {
-    q: "Taler I engelsk?",
-    a: "ja. dansk og engelsk, begge barberer.",
-  },
-  {
-    q: "Hvor lang tid tager en klipning?",
-    a: "en klipning tager omkring 30 minutter. klip og skæg sammen er omkring 45. første gang tager typisk lidt længere på grund af konsultationen.",
-  },
-  {
-    q: "Kan jeg tage et referencebillede med?",
-    a: "ja tak. et billede er hurtigere end at beskrive det, og din barber siger ærligt hvorvidt det passer til dit hår.",
-  },
-];
+const faqs = t.faq.items;
 
 export const Faq = () => {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="scheme-1 px-[5%] py-16 md:py-24 lg:py-28">
-      <div className="container max-w-3xl">
-        <SectionHeader heading="FAQ" description="de spørgsmål vi får oftest, besvaret." />
+    <section id="faq" className="scheme-1 px-[5%] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-20 lg:pb-[80px]">
+      <div className="container max-w-3xl lg:mx-auto lg:max-w-[960px]">
+        <SectionHeader heading={t.faq.heading} description={t.faq.description} />
         <div className="flex flex-col">
           {faqs.map((item, i) => {
             const isOpen = open === i;
             return (
-              <div key={item.q} className="border-t border-scheme-border last:border-b">
+              <div
+                key={item.q}
+                className={cn(
+                  "border-t transition-colors last:border-b",
+                  isOpen ? "border-scheme-text" : "border-scheme-border",
+                )}
+              >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   className="flex w-full items-center justify-between gap-6 py-5 text-left"
                 >
-                  <span className="text-h6">{item.q}</span>
+                  <span
+                    className={cn(
+                      "font-heading text-h6 text-scheme-text",
+                      isOpen ? "font-semibold" : "font-medium",
+                    )}
+                  >
+                    {item.q}
+                  </span>
                   <span
                     aria-hidden
                     className={cn(
@@ -65,7 +54,7 @@ export const Faq = () => {
                   )}
                 >
                   <div className="min-h-0">
-                    <p className="pb-6 pr-10">{item.a}</p>
+                    <p className="pb-6 pr-10 text-scheme-text/90">{item.a}</p>
                   </div>
                 </div>
               </div>

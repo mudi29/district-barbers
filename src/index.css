@@ -42,7 +42,7 @@
   .text-h4 { font-size: 1.5rem; }
 }
 
-/* ---------- barber card glitch stroke ---------- */
+/* ---------- barber card portrait ---------- */
 .barber-figure { position: absolute; inset: 0; }
 .barber-figure img {
   position: absolute;
@@ -53,69 +53,11 @@
   object-position: bottom center;
   user-select: none;
   -webkit-user-drag: none;
+  transition: filter 0.25s ease;
 }
-.barber-figure .ghost { filter: url(#barberStroke); }
-.barber-figure .photo  { z-index: 3; }
-.barber-figure .stroke-mask {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background-color: #AA2C0D;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: bottom center;
-  mask-position: bottom center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  transform: scale(1.06);
-  transform-origin: bottom center;
-  pointer-events: none;
+@media (min-width: 1024px) {
+  .barber-figure img { object-fit: cover; }
 }
-.barber-figure .ghost  { z-index: 2; opacity: 0; will-change: transform, clip-path; animation-play-state: paused; }
-
-.barber-card { --amp: 16; }
-.barber-card .g1 { animation: barberBurstA 3.4s steps(1, end) infinite; }
-.barber-card .g2 { animation: barberBurstB 3.4s steps(1, end) infinite; }
-.barber-card .g3 { animation: barberBurstC 3.4s steps(1, end) infinite; }
-.barber-card:hover .ghost { animation-play-state: running; }
-
-/* Mobile: keep the static stroke, drop the animated ghost layers — too heavy on phone GPUs. */
-@media (max-width: 767px), (hover: none) {
-  .barber-figure .ghost { display: none; }
-}
-
-@keyframes barberBurstA {
-  0%, 100% { opacity: 0; clip-path: inset(14% 0 68% 0); transform: translate3d(0,0,0); }
-  5%  { opacity: 1; clip-path: inset(14% 0 68% 0); transform: translate3d(calc(var(--amp) * 1px), 0, 0); }
-  7%  { opacity: 1; clip-path: inset(26% 0 58% 0); transform: translate3d(calc(var(--amp) * -0.65px), 0, 0); }
-  9%  { opacity: 1; clip-path: inset(14% 0 68% 0); transform: translate3d(calc(var(--amp) * 0.3px), 0, 0); }
-  11% { opacity: 0; }
-  46% { opacity: 1; clip-path: inset(20% 0 64% 0); transform: translate3d(calc(var(--amp) * -1px), 0, 0); }
-  49% { opacity: 1; clip-path: inset(8% 0 76% 0); transform: translate3d(calc(var(--amp) * 0.5px), 0, 0); }
-  52% { opacity: 0; }
-}
-@keyframes barberBurstB {
-  0%, 100% { opacity: 0; clip-path: inset(48% 0 34% 0); transform: translate3d(0,0,0); }
-  6%  { opacity: 1; clip-path: inset(48% 0 34% 0); transform: translate3d(calc(var(--amp) * -0.85px), 0, 0); }
-  8%  { opacity: 1; clip-path: inset(56% 0 26% 0); transform: translate3d(calc(var(--amp) * 0.45px), 0, 0); }
-  10% { opacity: 0; }
-  47% { opacity: 1; clip-path: inset(52% 0 30% 0); transform: translate3d(calc(var(--amp) * 0.9px), 0, 0); }
-  50% { opacity: 1; clip-path: inset(40% 0 44% 0); transform: translate3d(calc(var(--amp) * -0.4px), 0, 0); }
-  53% { opacity: 0; }
-  74% { opacity: 1; clip-path: inset(60% 0 22% 0); transform: translate3d(calc(var(--amp) * 0.7px), 0, 0); }
-  76% { opacity: 0; }
-}
-@keyframes barberBurstC {
-  0%, 100% { opacity: 0; clip-path: inset(72% 0 10% 0); transform: translate3d(0,0,0); }
-  7%  { opacity: 1; clip-path: inset(72% 0 10% 0); transform: translate3d(calc(var(--amp) * 0.6px), 0, 0); }
-  9%  { opacity: 0; }
-  48% { opacity: 1; clip-path: inset(78% 0 4% 0); transform: translate3d(calc(var(--amp) * -1.1px), 0, 0); }
-  51% { opacity: 1; clip-path: inset(66% 0 16% 0); transform: translate3d(calc(var(--amp) * 0.35px), 0, 0); }
-  54% { opacity: 0; }
-  75% { opacity: 1; clip-path: inset(70% 0 12% 0); transform: translate3d(calc(var(--amp) * -0.55px), 0, 0); }
-  77% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .barber-card .ghost { animation: none !important; opacity: 0 !important; }
+.barber-card.is-selected .barber-figure img {
+  filter: drop-shadow(0 0 1.5px #070707) drop-shadow(0 0 1.5px #070707);
 }
