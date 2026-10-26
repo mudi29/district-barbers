@@ -62,7 +62,7 @@ export function ProgressBar({
             animate={{ opacity: indeterminate ? 0 : 1 }}
             transition={reduced ? INSTANT : CROSSFADE}
           >
-            {percent}%
+            {`${percent}%`}
           </motion.span>
         </span>
       </div>

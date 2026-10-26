@@ -1,5 +1,10 @@
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import "@fontsource/work-sans/latin-500.css";
+import "@fontsource/work-sans/latin-600.css";
+import "@fontsource/jetbrains-mono/latin-400.css";
+import "@fontsource/jetbrains-mono/latin-500.css";
+import "@fontsource/jetbrains-mono/latin-600.css";
 import "./index.css";
 import App from "./App";
 import { SITE_DOMAIN, UMAMI_SCRIPT_URL, UMAMI_WEBSITE_ID } from "./content";
@@ -13,8 +18,16 @@ if (UMAMI_WEBSITE_ID) {
   document.head.appendChild(script);
 }
 
-createRoot(document.getElementById("root")!).render(
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 );
+
+// The built pages already hold the rendered site, so attach to it instead of rebuilding it. The two legal
+// pages are long runs of text with inline links, which the browser re-splits when it saves the HTML, so
+// they are rendered fresh.
+const root = document.getElementById("root")!;
+const legal = ["/cookiepolitik", "/privatlivspolitik"].includes(window.location.pathname.replace(/\/$/, ""));
+if (root.hasChildNodes() && !legal) hydrateRoot(root, app);
+else createRoot(root).render(app);

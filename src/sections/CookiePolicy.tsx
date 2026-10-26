@@ -1,8 +1,7 @@
 import {
   ADDRESS,
   BOOKING_URL,
-  NORDBOOQ_COOKIE_URL,
-  NORDBOOQ_PRIVACY_URL,
+  PAMP_PRIVACY_URL,
   PHONE_DISPLAY,
   PHONE_HREF,
   UMAMI_WEBSITE_ID,
@@ -53,28 +52,23 @@ export const CookiePolicy = () => (
           </p>
         </Block>
 
-        <Block title="Eksterne tjenester">
-          <p>
-            Selvom vi ikke sætter cookies, henter siden {hasAnalytics ? "to ting" : "én ting"} fra{" "}
-            {hasAnalytics ? "eksterne servere" : "en ekstern server"}, når du åbner den. Her modtager{" "}
-            {hasAnalytics ? "tjenesterne" : "tjenesten"} din IP-adresse og almindelige browseroplysninger:
-          </p>
-          <ul className="flex list-disc flex-col gap-2 pl-6">
-            <li>
-              <strong className="font-semibold">Google Fonts</strong> (fonts.googleapis.com og fonts.gstatic.com):
-              skrifttyperne Work Sans og JetBrains Mono.
-            </li>
-            {hasAnalytics && (
+        {hasAnalytics && (
+          <Block title="Eksterne tjenester">
+            <p>
+              Selvom vi ikke sætter cookies, henter siden ét script fra en ekstern server, når du åbner den. Her
+              modtager tjenesten din IP-adresse og almindelige browseroplysninger:
+            </p>
+            <ul className="flex list-disc flex-col gap-2 pl-6">
               <li>
                 <strong className="font-semibold">Umami</strong> (statistik): tæller sidevisninger og klik på
                 booking-knapperne uden cookies. Umami modtager din IP-adresse og dine browseroplysninger, når siden
                 åbnes, og bruger dem til at tælle besøg og vise et omtrentligt land. Data lagres på servere i EU. Læs
                 mere i Umamis egen privatlivspolitik.
               </li>
-            )}
-          </ul>
-          <p>Vi sætter selv ingen cookies i forbindelse med {hasAnalytics ? "de eksterne tjenester" : "den eksterne tjeneste"}.</p>
-        </Block>
+            </ul>
+            <p>Vi sætter selv ingen cookies i forbindelse med den eksterne tjeneste.</p>
+          </Block>
+        )}
 
         <Block title="Hosting">
           <p>
@@ -90,16 +84,10 @@ export const CookiePolicy = () => (
           </p>
           {hasBooking && (
             <p>
-              Du booker tid hos vores bookingsystem Nordbooq, som du kommer til via vores booking-knapper. Nordbooq
-              sætter blandt andet en nødvendig cookie, der husker din booking, og en login-cookie i op til 30 dage,
-              hvis du logger ind. Hvis der vises et kort, kan Google sætte cookies, og når du betaler depositum, kan
-              betalingsudbyderen Stripe sætte cookies for at forebygge svindel. Nordbooq har sin egen{" "}
-              <a href={NORDBOOQ_COOKIE_URL} target="_blank" rel="noreferrer" className={link}>
-                cookiepolitik
-              </a>{" "}
-              og{" "}
-              <a href={NORDBOOQ_PRIVACY_URL} target="_blank" rel="noreferrer" className={link}>
-                privatlivspolitik
+              Du booker tid hos vores bookingsystem Pamp, som du kommer til via vores booking-knapper. På Pamps side
+              gælder Pamps egne regler for cookies og persondata, se{" "}
+              <a href={PAMP_PRIVACY_URL} target="_blank" rel="noreferrer" className={link}>
+                Pamps databehandling
               </a>
               .
             </p>

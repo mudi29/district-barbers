@@ -10,6 +10,38 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [active, setActive] = useState("");
+
+  // Mark the nav link whose section crosses the middle of the viewport.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    // #top and #reviews are not in the menu; watching them clears the mark when you pass them.
+    [...t.nav.map((l) => l.href), "#top", "#reviews"].forEach((href) => {
+      const el = document.querySelector(href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // Close the menu when tapping anywhere except the bar and the links, or on Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!(e.target as Element).closest("[data-menu-keep]")) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -34,47 +66,14 @@ export const Navbar = () => {
     <nav
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b border-white/20 transition-[transform,background-color,color] duration-[400ms] ease-out",
-        solid ? "bg-black/70 text-white backdrop-blur" : "bg-transparent text-white",
+        solid ? "bg-black/70 text-white" : "bg-transparent text-white",
         hidden && "-translate-y-full",
       )}
     >
       <div className="px-[5%]">
-      <div className="container flex min-h-16 items-center justify-between md:min-h-18 lg:mx-auto lg:max-w-[960px]">
-        <a href="#top" className="font-heading text-base font-semibold uppercase tracking-tight lg:text-[2rem] lg:leading-[1.1] lg:tracking-[-0.03em]">
-          District Barbers
-        </a>
-        <div className="hidden items-center gap-8 lg:flex">
-          {t.nav.map((link) => (
-            <a key={link.href} href={link.href} className="font-heading text-regular font-medium uppercase hover:underline hover:underline-offset-[6px]">
-              {link.title}
-            </a>
-          ))}
-          <Button asChild variant="secondary-alt" size="sm" className="text-regular uppercase">
-            <a href={BOOKING_URL} data-umami-event="book-click" data-umami-event-source="navbar">
-              {t.bookCta}
-            </a>
-          </Button>
-          <a
-            href={t.switchTo.href}
-            hrefLang={t.switchTo.code.toLowerCase()}
-            lang={t.switchTo.code.toLowerCase()}
-            aria-label={t.switchTo.label}
-            className="font-heading text-regular font-medium uppercase hover:underline hover:underline-offset-[6px]"
-          >
-            {t.switchTo.code}
-          </a>
-        </div>
-        <a
-          href={t.switchTo.href}
-          hrefLang={t.switchTo.code.toLowerCase()}
-          lang={t.switchTo.code.toLowerCase()}
-          aria-label={t.switchTo.label}
-          className="ml-auto mr-4 font-heading text-sm font-medium uppercase hover:underline hover:underline-offset-4 lg:hidden"
-        >
-          {t.switchTo.code}
-        </a>
+      <div data-menu-keep className="container flex min-h-16 items-center md:min-h-18 lg:mx-auto lg:grid lg:max-w-[960px] lg:grid-cols-[1fr_auto_1fr]">
         <button
-          className="flex size-8 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className="order-3 flex size-8 flex-col items-center justify-center gap-1.5 lg:order-1 lg:justify-self-start"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? t.closeMenu : t.openMenu}
           aria-expanded={open}
@@ -89,21 +88,40 @@ export const Navbar = () => {
             </>
           )}
         </button>
+        <a href="#top" className="order-1 font-heading text-base font-semibold uppercase tracking-tight lg:order-2 lg:text-[2rem] lg:leading-[1.1] lg:tracking-[-0.03em]">
+          District Barbers
+        </a>
+        <a
+          href={t.switchTo.href}
+          hrefLang={t.switchTo.code.toLowerCase()}
+          lang={t.switchTo.code.toLowerCase()}
+          aria-label={t.switchTo.label}
+          className="order-2 ml-auto mr-4 font-heading text-sm font-medium uppercase hover:underline hover:underline-offset-4 lg:order-3 lg:m-0 lg:justify-self-end"
+        >
+          {t.switchTo.code}
+        </a>
       </div>
       </div>
       {open && (
-        <div className="flex h-[calc(100dvh-4rem)] flex-col gap-3 border-t border-white/20 px-[5%] pt-12 lg:hidden">
+        <div className="h-[calc(100dvh-4rem)] border-t border-white/20 px-[5%] pt-12 lg:h-auto lg:pb-12">
+        <div className="container flex flex-col gap-2 lg:mx-auto lg:max-w-[960px]">
           {t.nav.map((link) => (
             <a
+              data-menu-keep
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="font-heading text-sm font-medium uppercase"
+              aria-current={active === link.href ? "location" : undefined}
+              className={cn(
+                "w-fit font-heading text-regular uppercase text-white lg:text-medium",
+                active === link.href ? "font-semibold underline" : "font-medium",
+                "underline-offset-8 hover:underline",
+              )}
             >
               {link.title}
             </a>
           ))}
-          <Button asChild variant="secondary-alt" size="sm" className="mt-4 w-full text-sm uppercase">
+          <Button asChild data-menu-keep variant="secondary-alt" size="sm" className="mt-4 w-full font-heading text-regular font-medium uppercase lg:w-fit">
             <a
               href={BOOKING_URL}
               onClick={() => setOpen(false)}
@@ -113,14 +131,7 @@ export const Navbar = () => {
               {t.bookCta}
             </a>
           </Button>
-          <a
-            href={t.switchTo.href}
-            hrefLang={t.switchTo.code.toLowerCase()}
-            lang={t.switchTo.code.toLowerCase()}
-            className="mt-6 font-heading text-sm font-medium uppercase underline underline-offset-4"
-          >
-            {t.switchTo.label}
-          </a>
+        </div>
         </div>
       )}
     </nav>

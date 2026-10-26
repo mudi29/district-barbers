@@ -11,7 +11,7 @@ export const Faq = () => {
   return (
     <section id="faq" className="scheme-1 px-[5%] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-20 lg:pb-[80px]">
       <div className="container max-w-3xl lg:mx-auto lg:max-w-[960px]">
-        <SectionHeader heading={t.faq.heading} description={t.faq.description} />
+        <SectionHeader heading={t.faq.heading} description={t.faq.description} className="mb-8 md:mb-8 lg:mb-8" />
         <div className="flex flex-col">
           {faqs.map((item, i) => {
             const isOpen = open === i;
@@ -27,7 +27,7 @@ export const Faq = () => {
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-6 py-5 text-left"
+                  className={cn("flex w-full items-center justify-between gap-6 pt-6 text-left", isOpen ? "pb-2" : "pb-6")}
                 >
                   <span
                     className={cn(

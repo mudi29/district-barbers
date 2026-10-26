@@ -15,23 +15,29 @@ import { SectionHeader } from "./SectionHeader";
 type Barber = {
   name: string;
   photo: string;
+  outline: string;
 };
 
 const barbers: Barber[] = [
   {
     name: "Mahdi",
-    photo: "/MahdiClip.PNG",
+    photo: "/barber-mahdi.webp",
+    outline: "/barber-mahdi-outline.webp",
   },
   {
     name: "Storm",
-    photo: "/StormBillede.png",
+    photo: "/barber-storm.webp",
+    outline: "/barber-storm-outline.webp",
   },
 ];
 
-const BarberPortrait = ({ src, alt }: { src: string; alt: string }) => (
+// The selected card shows a copy of the photo with the ink outline already drawn into it. Fading between
+// the two is cheap, where a live drop-shadow filter made phones in Low Power Mode stutter.
+const BarberPortrait = ({ src, outline, alt }: { src: string; outline: string; alt: string }) => (
   <div className="relative -mx-6 -mt-6 aspect-[4/5] w-auto lg:aspect-[24/25]">
     <div className="barber-figure">
-      <img src={src} alt={alt} />
+      <img src={src} alt={alt} decoding="async" />
+      <img src={outline} alt="" aria-hidden decoding="async" className="barber-outline" />
     </div>
   </div>
 );
@@ -64,7 +70,7 @@ export const Barbers = () => {
 
 
   return (
-    <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-20 lg:pb-[80px]">
+    <section id="barbers" className="scheme-1 overflow-hidden bg-[#E8E8E8] px-[5%] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-16 lg:pb-[80px]">
       <div className="container lg:mx-auto lg:max-w-[752px]">
         <SectionHeader
           heading={t.barbers.heading}
@@ -87,7 +93,7 @@ export const Barbers = () => {
                     )}
                     aria-pressed={isSelected}
                   >
-                    <BarberPortrait src={barber.photo} alt={barber.name} />
+                    <BarberPortrait src={barber.photo} outline={barber.outline} alt={t.barbers.alt(barber.name)} />
                     <h3 className="mt-8 text-h5">{barber.name}</h3>
                     <p className="mt-2 flex-1">{t.barbers.list[index].description}</p>
                     <div className="mt-8 flex flex-col gap-2">
@@ -110,7 +116,7 @@ export const Barbers = () => {
             })}
           </CarouselContent>
         </Carousel>
-        <div className="mt-16 border border-brand-ink/30 bg-brand-paper p-6 md:mt-14 lg:max-w-[360px]">
+        <div className="mt-8 border border-brand-ink/30 bg-brand-paper p-6 lg:max-w-[360px]">
           <h3 className="mb-2 text-h4">{t.barbers.undecidedHeading}</h3>
           <p className="text-regular">{t.barbers.undecidedText}</p>
           <div className="mt-8 md:mt-8">

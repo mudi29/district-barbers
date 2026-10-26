@@ -17,6 +17,7 @@ export const Prices = () => (
       <SectionHeader
         heading={t.prices.heading}
         description={t.prices.description}
+        className="mb-8 md:mb-8 lg:mb-8"
       />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-2">
         {services.map((s) => (

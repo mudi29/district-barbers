@@ -7,7 +7,9 @@ document.documentElement.lang = lang;
 
 const da = {
   title: "District Barbers | Barber i København NV: fade, klip og skæg",
-  switchTo: { label: "English", href: "/en", code: "EN" },
+  description:
+    "Frisør og barber i Nordvest, København, Frederikssundsvej 40. Fade, klip og skæg hos to barberer. Walk-ins velkomne, eller book din tid online.",
+  switchTo: { label: "English", href: "/en/", code: "EN" },
   nav: [
     { title: "barbere", href: "#barbers" },
     { title: "priser", href: "#prices" },
@@ -18,7 +20,8 @@ const da = {
   bookCta: "Book en tid",
   openMenu: "Åbn menu",
   closeMenu: "Luk menu",
-  hero: { cta: "Enter District" },
+  notFound: { heading: "Siden findes ikke", text: "Adressen er forkert, eller siden er flyttet.", home: "Til forsiden" },
+  hero: { h1: "District Barbers: Frisør i Nordvest, København", cta: "Enter District" },
   barbers: {
     heading: "Vælg din barber",
     description:
@@ -28,6 +31,7 @@ const da = {
       { description: "Specialist i taper, blondt og dansk hår.", bars: ["FADE", "TAPER", "ENERGY LVL"] },
     ],
     choose: (name: string) => `Vælg ${name}`,
+    alt: (name: string) => `${name}, barber hos District Barbers`,
     undecidedHeading: "Kan du ikke vælge?",
     undecidedText: "Tag næste ledige tid, så sætter vi dig på den stol der er fri.",
     bookNow: "BOOK NU",
@@ -35,8 +39,7 @@ const da = {
   reviews: {
     stars: "5 ud af 5 stjerner",
     source: "Google-anmeldelse",
-    heading: "Kun glade kunder",
-    subtitle: "district barbers · nordvest, københavn",
+    heading: "Hvad vores kunder siger om os",
     all: "Se alle anmeldelser på Google",
   },
   prices: {
@@ -52,6 +55,7 @@ const da = {
     readyText: "Tag næste ledige tid, så sætter vi dig på den stol der er fri.",
   },
   about: {
+    videoLabel: "Storm klipper en kunde hos District Barbers",
     heading: "Vi lærer dit hoved at kende.",
     lead:
       "District Barbers er to barberer i Nordvest. Den samme barber klipper dig hver gang, så han kender dit hoved i stedet for at spørge, hvad du havde sidst.",
@@ -107,7 +111,9 @@ const da = {
 };
 
 const en: typeof da = {
-  title: "District Barbers | Barber in Copenhagen NV: fades, haircuts and beards",
+  title: "District Barbers | Barber in Copenhagen: fades & beards",
+  description:
+    "Barber in Nordvest, Copenhagen, Frederikssundsvej 40. Fades, haircuts and beards from two barbers. Walk-ins welcome, or book your time online.",
   switchTo: { label: "Dansk", href: "/", code: "DA" },
   nav: [
     { title: "barbers", href: "#barbers" },
@@ -119,7 +125,8 @@ const en: typeof da = {
   bookCta: "Book now",
   openMenu: "Open menu",
   closeMenu: "Close menu",
-  hero: { cta: "Enter District" },
+  notFound: { heading: "Page not found", text: "The address is wrong, or the page has moved.", home: "Back to the front page" },
+  hero: { h1: "District Barbers: barber in Nordvest, Copenhagen", cta: "Enter District" },
   barbers: {
     heading: "Choose your barber",
     description:
@@ -129,6 +136,7 @@ const en: typeof da = {
       { description: "Specialist in tapers, blond and Danish hair.", bars: ["FADE", "TAPER", "ENERGY LVL"] },
     ],
     choose: (name: string) => `Choose ${name}`,
+    alt: (name: string) => `${name}, barber at District Barbers`,
     undecidedHeading: "Can't decide?",
     undecidedText: "Take the next available time and we'll put you in whichever chair is free.",
     bookNow: "BOOK NOW",
@@ -136,8 +144,7 @@ const en: typeof da = {
   reviews: {
     stars: "5 out of 5 stars",
     source: "Google review",
-    heading: "Only happy customers",
-    subtitle: "district barbers · nordvest, copenhagen",
+    heading: "What our customers say about us",
     all: "See all reviews on Google",
   },
   prices: {
@@ -153,6 +160,7 @@ const en: typeof da = {
     readyText: "Take the next available time and we'll put you in whichever chair is free.",
   },
   about: {
+    videoLabel: "Storm cutting a customer at District Barbers",
     heading: "We get to know your head.",
     lead:
       "District Barbers is two barbers in Nordvest. The same barber cuts your hair every time, so he knows your head instead of asking what you had last time.",
@@ -209,3 +217,22 @@ const en: typeof da = {
 
 export const t = lang === "en" ? en : da;
 document.title = t.title;
+
+// Keep the head in step with the language. Crawlers that run scripts see these; the prerender step
+// will bake the same values into the HTML.
+const setMeta = (selector: string, attr: string, value: string) => {
+  const el = document.head.querySelector(selector);
+  if (el) el.setAttribute(attr, value);
+};
+const path = lang === "en" ? "/en/" : window.location.pathname.replace(/\/$/, "") || "/";
+const pageUrl = `https://district-barbers.dk${path}`;
+setMeta('meta[name="description"]', "content", t.description);
+setMeta('meta[property="og:title"]', "content", t.title);
+setMeta('meta[property="og:description"]', "content", t.description);
+setMeta('meta[property="og:url"]', "content", pageUrl);
+setMeta('meta[property="og:locale"]', "content", lang === "en" ? "en_GB" : "da_DK");
+setMeta('meta[property="og:locale:alternate"]', "content", lang === "en" ? "da_DK" : "en_GB");
+const canonical =
+  document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]') ?? document.head.appendChild(document.createElement("link"));
+canonical.rel = "canonical";
+canonical.href = pageUrl;

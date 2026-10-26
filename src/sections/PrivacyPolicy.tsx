@@ -1,7 +1,7 @@
 import {
   ADDRESS,
   CVR,
-  NORDBOOQ_PRIVACY_URL,
+  PAMP_PRIVACY_URL,
   PHONE_DISPLAY,
   PHONE_HREF,
   PRIVACY_EMAIL,
@@ -28,7 +28,7 @@ const processing: Processing[] = [
   },
   {
     title: "Depositum og betaling",
-    data: "Dine betalingsoplysninger og bilag for depositum. Betalingen gennemføres via Stripe.",
+    data: "Dine betalingsoplysninger og bilag for depositum. Betalingen gennemføres via vores bookingsystem.",
     purpose: "At gennemføre betalingen og føre regnskab.",
     basis: "Aftale (litra b) og retlig forpligtelse (litra c) efter bogføringsloven.",
     retention: "5 år efter udgangen af det regnskabsår, bilaget hører til.",
@@ -114,28 +114,20 @@ export const PrivacyPolicy = () => (
         <Block title="Modtagere">
           <ul className="flex list-disc flex-col gap-2 pl-6">
             <li>
-              Nordbooq, vores bookingsystem og databehandler, til booking, sms og e-mails. Data opbevares i EU. Se{" "}
-              <a href={NORDBOOQ_PRIVACY_URL} target="_blank" rel="noreferrer" className={link}>
-                Nordbooqs privatlivspolitik
-              </a>
-              .
-            </li>
-            <li>
-              Stripe, til betaling af depositum. Se{" "}
-              <a href="https://stripe.com/privacy" target="_blank" rel="noreferrer" className={link}>
-                Stripes privatlivspolitik
+              Pamp ApS, vores bookingsystem og databehandler, til booking, betaling, sms og e-mails. Se{" "}
+              <a href={PAMP_PRIVACY_URL} target="_blank" rel="noreferrer" className={link}>
+                Pamps databehandling
               </a>
               .
             </li>
             <li>Simply.com, som hoster hjemmesiden.</li>
             <li>Umami, til statistik. Data lagres i EU.</li>
-            <li>Google, som leverer skrifttyperne og modtager din IP-adresse, når siden åbnes.</li>
           </ul>
         </Block>
 
         <Block title="Overførsel uden for EU">
           <p>
-            Umami og Stripe har amerikanske moderselskaber, og Google kan overføre din IP-adresse til USA. Overførsler sker
+            Umami har et amerikansk moderselskab. Overførsler sker
             på grundlag af EU's standardkontraktbestemmelser eller et andet gyldigt overførselsgrundlag.
           </p>
         </Block>

@@ -1,6 +1,5 @@
 import { StarFull } from "relume-icons";
 import { REVIEWS_URL } from "@/content";
-import { cn } from "@/lib/utils";
 import { t } from "@/i18n";
 
 type Review = { quote: string; name: string };
@@ -23,16 +22,11 @@ const reviews: Review[] = [
   },
 ];
 
-// Desktop shows these three side by side; phones and tablets get the moving row of all five.
+// Three reviews: stacked on phones and tablets, side by side on desktop.
 const featured = reviews.slice(0, 3);
 
-const COPIES = 4;
-
-const ReviewCard = ({ review, className, hidden }: { review: Review; className?: string; hidden?: boolean }) => (
-  <article
-    aria-hidden={hidden}
-    className={cn("flex flex-col gap-4 border border-brand-ink/30 bg-brand-paper p-6", className)}
-  >
+const ReviewCard = ({ review }: { review: Review }) => (
+  <article className="flex flex-col gap-4 border border-brand-ink/30 bg-brand-paper p-6">
     <div className="flex gap-1" aria-label={t.reviews.stars}>
       {Array.from({ length: 5 }).map((_, s) => (
         <StarFull key={s} className="size-4 text-brand-ink" />
@@ -43,64 +37,33 @@ const ReviewCard = ({ review, className, hidden }: { review: Review; className?:
   </article>
 );
 
-const Ticker = ({ items }: { items: Review[] }) => (
-  <div className="relative overflow-hidden">
-    <div className="flex w-max gap-6 py-2" style={{ animation: "ticker 60s linear infinite" }}>
-      {Array.from({ length: COPIES })
-        .flatMap(() => items)
-        .map((review, i) => (
-          <ReviewCard
-            key={i}
-            review={review}
-            hidden={i >= items.length}
-            className="w-[320px] shrink-0 md:w-[380px]"
-          />
-        ))}
-    </div>
-  </div>
-);
-
 export const Reviews = () => (
-  <section className="scheme-2 overflow-hidden bg-[#9C9DA6] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-20 lg:pb-[80px]">
-    <div className="container mb-10 flex flex-col items-center gap-3 px-[5%] text-center md:mb-14">
-      <div className="flex items-center gap-3">
-        <div className="flex gap-1" aria-label={t.reviews.stars}>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <StarFull key={i} className="size-5 text-brand-ink" />
-          ))}
-        </div>
-        <img src="/google-icon.svg" alt="Google" className="size-5" />
-      </div>
+  <section id="reviews" className="scheme-2 overflow-hidden bg-[#9C9DA6] pt-16 pb-20 md:pt-24 md:pb-[120px] lg:pt-16 lg:pb-[80px]">
+    <div className="px-[5%]">
+    <div className="container mb-12 flex flex-col items-start gap-2 md:mb-18 lg:mx-auto lg:mb-8 lg:max-w-[960px]">
       <h2 className="text-h2">{t.reviews.heading}</h2>
-      <p className="text-regular text-scheme-text/80">{t.reviews.subtitle}</p>
+    </div>
     </div>
 
-    <div className="lg:hidden">
-      <Ticker items={reviews} />
+    <div className="px-[5%]">
+      <div className="container grid grid-cols-1 gap-6 lg:mx-auto lg:max-w-[960px] lg:grid-cols-3">
+        {featured.map((review) => (
+          <ReviewCard key={review.quote} review={review} />
+        ))}
+      </div>
     </div>
 
-    <div className="hidden lg:mx-auto lg:grid lg:max-w-[960px] lg:grid-cols-3 lg:gap-6">
-      {featured.map((review) => (
-        <ReviewCard key={review.quote} review={review} />
-      ))}
-    </div>
-
-    <div className="container mt-8 px-[5%] text-center">
+    <div className="px-[5%]">
+    <div className="container mt-8 lg:mx-auto lg:mt-6 lg:max-w-[960px]">
       <a
         href={REVIEWS_URL}
         target="_blank"
         rel="noreferrer"
-        className="font-body text-small underline underline-offset-4 hover:no-underline"
+        className="font-body text-medium font-medium underline decoration-2 underline-offset-4 hover:no-underline"
       >
         {t.reviews.all}
       </a>
     </div>
-
-    <style>{`
-      @keyframes ticker {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-25%); }
-      }
-    `}</style>
+    </div>
   </section>
 );

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://district-barbers.dk/sitemap.xml

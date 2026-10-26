@@ -53,11 +53,12 @@
   object-position: bottom center;
   user-select: none;
   -webkit-user-drag: none;
-  transition: filter 0.25s ease;
+}
+.barber-figure .barber-outline {
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 @media (min-width: 1024px) {
   .barber-figure img { object-fit: cover; }
 }
-.barber-card.is-selected .barber-figure img {
-  filter: drop-shadow(0 0 1.5px #070707) drop-shadow(0 0 1.5px #070707);
-}
+.barber-card.is-selected .barber-figure .barber-outline { opacity: 1; }

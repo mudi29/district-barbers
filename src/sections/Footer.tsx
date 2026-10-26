@@ -5,7 +5,7 @@ const [street, city] = ADDRESS.split(", ");
 
 // Based on Relume Footer 1: links and contact details, with a legal row underneath.
 export const Footer = () => (
-  <footer id="book" className="border-t border-white/20 bg-black/80 px-[5%] py-12 text-white backdrop-blur md:py-18 lg:py-20">
+  <footer id="book" className="border-t border-white/20 bg-black/80 px-[5%] py-12 text-white md:py-18 lg:py-20">
     <div id="contact" className="container lg:mx-auto lg:max-w-[960px]">
       <p className="mb-2 font-heading text-[2rem] font-semibold uppercase leading-[1.1] tracking-[-0.03em] md:text-[3rem]">District Barbers</p>
       <p className="mb-12 text-regular text-white/75">{t.footer.tagline}</p>
@@ -40,7 +40,7 @@ export const Footer = () => (
         </div>
       </div>
       <div className="flex flex-col gap-4 border-t border-white/20 pt-6 text-regular text-white/75 md:flex-row md:items-center md:justify-between">
-        <p>© {new Date().getFullYear()} District Barbers</p>
+        <p>{`© ${new Date().getFullYear()} District Barbers`}</p>
         <div className="flex gap-6">
           <a href="/privatlivspolitik" className="hover:underline">{t.footer.privacy}</a>
           <a href="/cookiepolitik" className="hover:underline">{t.footer.cookies}</a>
