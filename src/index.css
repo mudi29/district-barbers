@@ -57,6 +57,7 @@
 .barber-figure .barber-outline {
   opacity: 0;
   transition: opacity 0.2s ease;
+  will-change: opacity;
 }
 @media (min-width: 1024px) {
   .barber-figure img { object-fit: cover; }

@@ -52,6 +52,14 @@ export const Barbers = () => {
     if (window.matchMedia("(max-width: 1023px)").matches) api?.scrollTo(index);
   };
 
+  // Decode every portrait up front. Phones skip images that are off screen or fully transparent and decode
+  // them the moment they appear, which shows up as a hitch right when a card is selected.
+  useEffect(() => {
+    document.querySelectorAll<HTMLImageElement>(".barber-figure img").forEach((img) => {
+      img.decode?.().catch(() => {});
+    });
+  }, []);
+
   // Keep the "selected" (outlined) card in sync with whichever card the
   // carousel is currently on — so a swipe outlines the new in-view card.
   useEffect(() => {
